@@ -70,5 +70,40 @@
 
 </div>
 
+var MailListener = require("mail-listener2");
+  var mailListener = new MailListener({
+    username: "imap-username",
+      password: "imap-password",
+        host: "imap-host",
+      port: 993,
+    tls: true,
+  connTimeout: 10000,
+authTimeout: 5000,
+  debug: console.log, Default: null
+    tlsOptions: { rejectUnauthorized: false },
+      mailbox: "INBOX",
+        searchFilter: ["UNSEEN", "FLAGGED"],
+      markSeen: true,
+    fetchUnreadOnStart: true,  Default is `false`,
+  mailParserOptions: {streamAttachments: true},
+attachments: true,
+  attachmentOptions: { directory: "attachments/" }
+    });
+      mailListener.start();
+        mailListener.on("server:connected", function(){
+      console.log("imapConnected");
+    });
+  mailListener.on("server:disconnected", function(){
+console.log("imapDisconnected");
+  });
+    mailListener.on("error", function(err){
+      console.log(err);
+        });
+      mailListener.on("mail", function(mail, seqno, attributes){
+    console.log("emailParsed", mail);
+  });
+mailListener.on("attachment", function(attachment){
+  mailListener.imap.move(:msguids, :mailboxes, function(){})
+
 </body>
 </html>
